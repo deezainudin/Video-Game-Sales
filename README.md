@@ -37,7 +37,7 @@ The video game industry is hit-driven and highly regional. A genre that dominate
 | Global_Sales | Total worldwide sales (millions) |
 
 
-## 🧱 Data Model
+## 3. Data Model
 
 Built in Power Query and the Power BI model view as a star schema.
 
@@ -52,5 +52,59 @@ dimDeveloper ─┘
 - **dimPlatform / dimGenre / dimPublisher / dimDeveloper:** distinct values with IDs.
 - **factRegionSales:** `NA_Sales`, `EU_Sales`, `JP_Sales` and `Other_Sales` unpivoted into `Region | Sales`, so a single region slicer filters every regional visual.
 - **dimRegion:** the four regions with a sort order, used for the region slicer.
+
+  
+## 4. Key DAX Measures
+
+```DAX
+Total Global Sales = SUM(factSales[Global_Sales])
+
+Game Releases = COUNTROWS(factSales)
+
+Unique Games = DISTINCTCOUNT(factSales[Name])
+
+Avg Sales per Title = DIVIDE([Total Global Sales], [Game Releases])
+
+Regional Sales = SUM(factRegionSales[Sales])
+
+Region Share % =
+DIVIDE([Regional Sales], CALCULATE([Regional Sales], REMOVEFILTERS(dimRegion)))
+
+Top Game Name =
+MAXX(TOPN(1, VALUES(factSales[Name]), [Total Global Sales], DESC), factSales[Name])
+
+Leading Region =
+MAXX(TOPN(1, VALUES(dimRegion[Region]), [Regional Sales], DESC), dimRegion[Region])
+
+Sales PY =
+VAR CurrentYear = MAX(factSales[Year])
+RETURN
+    CALCULATE(
+        [Total Global Sales],
+        REMOVEFILTERS(factSales[Year]),
+        factSales[Year] = CurrentYear - 1
+    )
+
+YoY Growth % = DIVIDE([Total Global Sales] - [Sales PY], [Sales PY])
+```
+
+---
+### overview
+<img width="1342" height="757" alt="image" src="https://github.com/user-attachments/assets/679382b8-d706-43c2-98f6-71ecaa189883" />
+
+
+
+### Regional
+<img width="1336" height="751" alt="image" src="https://github.com/user-attachments/assets/099f8802-9e97-4e05-8538-4435c1f7027a" />
+
+## 5. Key Insights
+
+1. **A few hits dominate.** The top 10 games account for **5.36%** of total sales, led by **Wii Sports** with **82.53M** copies. Sales follow a long-tail pattern: most titles sell under 1M copies.
+2. **Genre leaders.** **Action** and **Sports** generate the most sales overall.
+3. **North America is the largest market**, contributing **50.49%** of global sales, followed by Europe at **29.13%** and Japan at **11.40%**.
+4. **Japan's taste differs.** Role-Playing games over-index in Japan compared with the global mix, while Actions over-index in the West.
+5. **Sales peaked around 2008.** Global sales rose sharply through the 2000s and peaked around **2008**, then declined.
+6. **Platform concentration.** **Wii** leads with **210M** copies.
+7. **Platform lifecycles differ.** **Wii** delivered the highest total sales, and platforms typically peak 2 to 4 years after launch.
 
 
