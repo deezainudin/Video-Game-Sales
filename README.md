@@ -4,7 +4,7 @@
 
 ---
 
-## 📌 Project Overview
+## 1.Project Overview
 
 The video game industry is hit-driven and highly regional. A genre that dominates in North America can underperform in Japan, and a handful of blockbusters can account for a large share of total sales. This project turns raw sales data into a decision-support tool for a game company, answering questions such as:
 
@@ -16,7 +16,7 @@ The video game industry is hit-driven and highly regional. A genre that dominate
 
 ---
 
-## 🗂️ Dataset
+## 2.Dataset
 
 - **Source:** [Kaggle: Video Game Sales]([https://www.kaggle.com/](https://www.kaggle.com/datasets/rush4ratio/video-game-sales-with-ratings/data)) 
 - **Size:** 16,000+ rows, one row per game per platform
@@ -36,5 +36,21 @@ The video game industry is hit-driven and highly regional. A genre that dominate
 | Other_Sales | Rest of world sales (millions) |
 | Global_Sales | Total worldwide sales (millions) |
 
----
+
+## 🧱 Data Model
+
+Built in Power Query and the Power BI model view as a star schema.
+
+```
+dimPlatform ──┐
+dimGenre ─────┼──► factSales ──► factRegionSales ◄── dimRegion
+dimPublisher ─┤     (SalesID)      (SalesID, Region, Sales)
+dimDeveloper ─┘
+```
+
+- **factSales:** one row per game per platform, with foreign keys to each dimension and a `SalesID` index.
+- **dimPlatform / dimGenre / dimPublisher / dimDeveloper:** distinct values with IDs.
+- **factRegionSales:** `NA_Sales`, `EU_Sales`, `JP_Sales` and `Other_Sales` unpivoted into `Region | Sales`, so a single region slicer filters every regional visual.
+- **dimRegion:** the four regions with a sort order, used for the region slicer.
+
 
