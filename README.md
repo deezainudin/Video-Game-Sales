@@ -29,7 +29,6 @@ The video game industry is hit-driven and highly regional. A genre that dominate
 | Year_of_Release | Year the game was released |
 | Genre | Game genre |
 | Publisher | Publisher of the game |
-| Developer | Developer of the game |
 | NA_Sales | North America sales (millions) |
 | EU_Sales | Europe sales (millions) |
 | JP_Sales | Japan sales (millions) |
