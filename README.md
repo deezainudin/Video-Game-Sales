@@ -107,4 +107,5 @@ YoY Growth % = DIVIDE([Total Global Sales] - [Sales PY], [Sales PY])
 6. **Platform concentration.** **Wii** leads with **210M** copies.
 7. **Platform lifecycles differ.** **Wii** delivered the highest total sales, and platforms typically peak 2 to 4 years after launch.
 
-
+## Access
+Link to dashboard : https://app.powerbi.com/links/MKwi2Jez3f?ctid=f86bb447-f88c-4336-9a65-f2477e72ee5f&pbi_source=linkShare
